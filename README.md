@@ -1,4 +1,4 @@
-# public-promise
+# public-promise [![Build Status](https://travis-ci.org/tjmehta/public-promise.svg?branch=master)](https://travis-ci.org/tjmehta/public-promise)
 Promise that exposes resolve and reject publicly
 
 # Installation
