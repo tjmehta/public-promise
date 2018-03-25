@@ -1,4 +1,6 @@
 # public-promise
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/tjmehta/public-promise.svg)](https://greenkeeper.io/)
 Promise that exposes resolve and reject publicly
 
 # Installation
