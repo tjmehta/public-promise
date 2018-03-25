@@ -1,10 +1,7 @@
 /* eslint jest */
+const timeout = require('timeout-then')
 
 const PublicPromise = require('../index')
-
-process.on('unhandledRejection', (err) => {
-  throw err
-})
 
 describe('PublicPromise', () => {
   const ctx = {}
@@ -32,66 +29,120 @@ describe('PublicPromise', () => {
 
     describe('resolved promise', () => {
       it('should resolve', () => {
-        ctx.promise.resolve(ctx.data)
-        return ctx.promise.then((data) => {
-          expect(data).toBe(ctx.data)
-        })
+        return timeout(1)
+          .then(() => ctx.promise.resolve(ctx.data))
+          .then(() => timeout(1))
+          .then(() =>
+            ctx.promise.then((data) => {
+              expect(data).toBe(ctx.data)
+            })
+          )
       })
 
       it('should reject', () => {
         expect.assertions(1)
-        ctx.promise.reject(ctx.err)
-        return ctx.promise.catch((err) => {
-          expect(err).toBe(ctx.err)
+        return timeout(1)
+          .then(() => ctx.promise.reject(ctx.err))
+          .then(() => timeout(1))
+          .then(() =>
+            ctx.promise.catch((err) => {
+              expect(err).toBe(ctx.err)
+            })
+          )
+      })
+
+      describe('twice', () => {
+        it('should resolve', () => {
+          return timeout(1)
+            .then(() => ctx.promise.resolve(ctx.data))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise.then((data) => {
+                expect(data).toBe(ctx.data)
+              })
+            )
+            .then(() =>
+              ctx.promise.then((data) => {
+                expect(data).toBe(ctx.data)
+              })
+            )
+        })
+
+        it('should reject', () => {
+          expect.assertions(2)
+          return timeout(1)
+            .then(() => ctx.promise.reject(ctx.err))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise.catch((err) => {
+                expect(err).toBe(ctx.err)
+              })
+            )
+            .then(() =>
+              ctx.promise.catch((err) => {
+                expect(err).toBe(ctx.err)
+              })
+            )
         })
       })
 
       describe('then chain', () => {
         it('should resolve', () => {
-          ctx.promise.resolve(ctx.data)
-          return ctx.promise
-            .then((data) => data)
-            .then((data) => {
-              expect(data).toBe(ctx.data)
-            })
+          return timeout(1)
+            .then(() => ctx.promise.resolve(ctx.data))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise
+                .then((data) => data)
+                .then((data) => {
+                  expect(data).toBe(ctx.data)
+                })
+            )
         })
 
         it('should reject', () => {
           expect.assertions(1)
-          ctx.promise.reject(ctx.err)
-          return ctx.promise
-            .then((data) => data)
-            .catch((err) => {
-              expect(err).toBe(ctx.err)
-            })
+          return timeout(1)
+            .then(() => ctx.promise.reject(ctx.err))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise
+                .then((data) => data)
+                .catch((err) => {
+                  expect(err).toBe(ctx.err)
+                })
+            )
         })
       })
 
       describe('catch chain', () => {
         it('should resolve', () => {
-          ctx.promise.resolve(ctx.data)
-          return ctx.promise
-            .catch((err) => {
-              throw err
-            })
-            .then((data) => {
-              expect(data).toBe(ctx.data)
-            })
+          return timeout(1)
+            .then(() => ctx.promise.resolve(ctx.data))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise
+                .catch((err) => { throw err })
+                .then((data) => {
+                  expect(data).toBe(ctx.data)
+                })
+            )
         })
 
         it('should reject', () => {
           expect.assertions(1)
-          ctx.promise.reject(ctx.err)
-          return ctx.promise
-            .catch((err) => {
-              throw err
-            })
-            .catch((err) => {
-              expect(err).toBe(ctx.err)
-            })
+          return timeout(1)
+            .then(() => ctx.promise.reject(ctx.err))
+            .then(() => timeout(1))
+            .then(() =>
+              ctx.promise
+                .catch((err) => { throw err })
+                .catch((err) => {
+                  expect(err).toBe(ctx.err)
+                })
+            )
         })
       })
-
 
       describe('invalid result', () => {
         it('should then', () => {
@@ -113,6 +164,20 @@ describe('PublicPromise', () => {
           }).toThrow('unknown result')
         })
       })
+
+      describe('Promise.all', () => {
+        it('should reject w/out unhandledRejection', () => {
+          expect.assertions(1)
+          return timeout(1)
+            .then(() => ctx.promise.reject(ctx.err))
+            .then(() => timeout(1))
+            .then(() =>
+              Promise.all([ctx.promise]).catch((err) => {
+                expect(err).toBe(ctx.err)
+              })
+            )
+        })
+      })
     })
 
 
@@ -121,7 +186,7 @@ describe('PublicPromise', () => {
         const p = ctx.promise.then((data) => {
           expect(data).toBe(ctx.data)
         })
-        ctx.promise.resolve(ctx.data)
+        timeout(1).then(() => ctx.promise.resolve(ctx.data))
         return p
       })
 
@@ -130,7 +195,7 @@ describe('PublicPromise', () => {
         const p = ctx.promise.catch((err) => {
           expect(err).toBe(ctx.err)
         })
-        ctx.promise.reject(ctx.err)
+        timeout(1).then(() => ctx.promise.reject(ctx.err))
         return p
       })
 
@@ -141,7 +206,7 @@ describe('PublicPromise', () => {
             .then((data) => {
               expect(data).toBe(ctx.data)
             })
-          ctx.promise.resolve(ctx.data)
+          timeout(1).then(() => ctx.promise.resolve(ctx.data))
           return p
         })
 
@@ -152,7 +217,7 @@ describe('PublicPromise', () => {
             .catch((err) => {
               expect(err).toBe(ctx.err)
             })
-          ctx.promise.reject(ctx.err)
+          timeout(1).then(() => ctx.promise.reject(ctx.err))
           return p
         })
       })
@@ -166,7 +231,7 @@ describe('PublicPromise', () => {
             .then((data) => {
               expect(data).toBe(ctx.data)
             })
-          ctx.promise.resolve(ctx.data)
+          timeout(1).then(() => ctx.promise.resolve(ctx.data))
           return p
         })
 
@@ -179,7 +244,7 @@ describe('PublicPromise', () => {
             .catch((err) => {
               expect(err).toBe(ctx.err)
             })
-          ctx.promise.reject(ctx.err)
+          timeout(1).then(() => ctx.promise.reject(ctx.err))
           return p
         })
       })

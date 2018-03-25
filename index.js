@@ -18,24 +18,30 @@ PublicPromise.prototype._deferredPromise = function () {
   })
 }
 
-PublicPromise.prototype.then = function (cb) {
-  if (this._promise) return this._promise.then(cb)
+PublicPromise.prototype.then = function (cb1, cb2) {
+  if (this._promise) return this._promise.then(cb1, cb2)
   if (this._result) {
-    if (this._result.data) this._promise = Promise.resolve(this._result.data)
-    else if (this._result.err) this._promise = Promise.reject(this._result.err)
-    else throw new Error('unknown result')
+    if (this._result.data)
+      this._promise = Promise.resolve(this._result.data)
+    else if (this._result.err)
+      this._promise = Promise.reject(this._result.err)
+    else
+      throw new Error('unknown result')
   } else {
     this._promise = this._deferredPromise()
   }
-  return this._promise.then(cb)
+  return this._promise.then(cb1, cb2)
 }
 
 PublicPromise.prototype.catch = function (cb) {
   if (this._promise) return this._promise.catch(cb)
   if (this._result) {
-    if (this._result.data) this._promise = Promise.resolve(this._result.data)
-    else if (this._result.err) this._promise = Promise.reject(this._result.err)
-    else throw new Error('unknown result')
+    if (this._result.data)
+      this._promise = Promise.resolve(this._result.data)
+    else if (this._result.err)
+      this._promise = Promise.reject(this._result.err)
+    else
+      throw new Error('unknown result')
   } else {
     this._promise = this._deferredPromise()
   }
