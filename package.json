@@ -25,6 +25,11 @@
   },
   "homepage": "https://github.com/tjmehta/public-promise#readme",
   "devDependencies": {
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "p-lazy": "^1.0.0",
+    "timeout-then": "^1.1.0"
+  },
+  "dependencies": {
+    "p-defer": "^1.0.0"
   }
 }
