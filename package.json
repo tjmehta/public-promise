@@ -1,6 +1,6 @@
 {
   "name": "public-promise",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Promise that exposes resolve and reject publicly",
   "main": "index.js",
   "scripts": {
