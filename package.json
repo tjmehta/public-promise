@@ -1,0 +1,30 @@
+{
+  "name": "public-promise",
+  "version": "0.0.0",
+  "description": "Promise that exposes resolve and reject publicly",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjmehta/public-promise.git"
+  },
+  "keywords": [
+    "promise",
+    "public",
+    "resolve",
+    "reject",
+    "exposed",
+    "test"
+  ],
+  "author": "Tejesh Mehta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tjmehta/public-promise/issues"
+  },
+  "homepage": "https://github.com/tjmehta/public-promise#readme",
+  "devDependencies": {
+    "jest": "^22.4.3"
+  }
+}
