@@ -1,6 +1,6 @@
 {
   "name": "public-promise",
-  "version": "0.0.0",
+  "version": "1.0.3",
   "description": "Promise that exposes resolve and reject publicly",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/tjmehta/public-promise#readme",
   "devDependencies": {
-    "jest": "^22.4.3"
-  }
+    "jest": "^22.4.3",
+    "timeout-then": "^1.1.0"
+  },
+  "dependencies": {}
 }

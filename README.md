@@ -1,6 +1,5 @@
-# public-promise
+# public-promise [![Build Status](https://travis-ci.org/tjmehta/public-promise.svg?branch=master)](https://travis-ci.org/tjmehta/public-promise) [![Greenkeeper badge](https://badges.greenkeeper.io/tjmehta/public-promise.svg)](https://greenkeeper.io/)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/tjmehta/public-promise.svg)](https://greenkeeper.io/)
 Promise that exposes resolve and reject publicly
 
 # Installation
